@@ -7,7 +7,19 @@ namespace zmpt101b {
 
 static const char *const TAG = "zmpt101b";
 
+void ZMPT101BSensor::update() {
+	accumulated_v_ = 0.0;
+	iteration_ = 0;
+	vsum_ = 0;
+	count_ = 0;
+	state_ = State::CALIBRATING;
+	measuring_ = true;
+}
+
 void ZMPT101BSensor::loop() {
+	if (!measuring_)
+		return;
+
 	uint32_t now = micros();
 
 	if (count_ == 0)
@@ -35,8 +47,7 @@ void ZMPT101BSensor::loop() {
 			count_ = 0;
 			if (++iteration_ >= loop_count_) {
 				publish_state(accumulated_v_ / loop_count_);
-				accumulated_v_ = 0.0;
-				iteration_ = 0;
+				measuring_ = false;
 			}
 			state_ = State::CALIBRATING;
 		}

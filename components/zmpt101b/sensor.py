@@ -27,7 +27,7 @@ CONFIG_SCHEMA = sensor.sensor_schema(
     cv.Required(CONF_SENSITIVITY): cv.float_,
     cv.Optional(CONF_FREQUENCY, default=50): cv.positive_int,
     cv.Optional(CONF_LOOP_COUNT, default=50): cv.positive_int,
-}).extend(cv.COMPONENT_SCHEMA)
+}).extend(cv.polling_component_schema("60s"))
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])

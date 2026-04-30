@@ -9,7 +9,7 @@ namespace zmpt101b {
 #define ADC_SCALE 4095
 #define VREF 3.3
 
-class ZMPT101BSensor : public sensor::Sensor, public Component {
+class ZMPT101BSensor : public sensor::Sensor, public PollingComponent {
  public:
   void set_adc_sensor(adc::ADCSensor *sensor) { adc_sensor_ = sensor; }
   void set_frequency(uint16_t freq) { period_ = 1000000UL / freq; }
@@ -17,6 +17,7 @@ class ZMPT101BSensor : public sensor::Sensor, public Component {
   void set_loop_count(float sens) { loop_count_ = sens; }
 
   void setup() override {}
+  void update() override;
   void loop() override;
 
  protected:
@@ -27,6 +28,7 @@ class ZMPT101BSensor : public sensor::Sensor, public Component {
   float sensitivity_;
   int loop_count_;
 
+  bool measuring_{false};
   State state_{State::CALIBRATING};
   uint32_t t_start_{0};
   uint32_t vsum_{0};
