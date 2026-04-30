@@ -38,7 +38,7 @@ void ZMPT101BSensor::loop() {
 	} else {
 		if (now - t_start_ < period_) {
 			int32_t v = (adc_sensor_->sample() * ADC_SCALE) - zero_point_;
-			vsum_ += v * v;
+			vsum_ += (int64_t)v * v;
 			count_++;
 		} else {
 			double v_rms = sqrt((double) vsum_ / count_) / ADC_SCALE * VREF;

@@ -31,7 +31,7 @@ class ZMPT101BSensor : public sensor::Sensor, public PollingComponent {
   bool measuring_{false};
   State state_{State::CALIBRATING};
   uint32_t t_start_{0};
-  uint32_t vsum_{0};
+  int64_t vsum_{0};
   uint32_t count_{0};
   int32_t zero_point_{0};
   double accumulated_v_{0.0};
