@@ -13,6 +13,7 @@ CONF_ADC_ID = "adc_id"
 CONF_SENSITIVITY = "sensitivity"
 CONF_FREQUENCY = "frequency"
 CONF_LOOP_COUNT = "loop_count"
+CONF_UPDATE_INTERVAL = "update_interval"
 
 zmpt101b_ns = cg.esphome_ns.namespace("zmpt101b")
 ZMPT101BSensor = zmpt101b_ns.class_("ZMPT101BSensor", sensor.Sensor, cg.PollingComponent)
