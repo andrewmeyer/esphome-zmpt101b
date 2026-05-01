@@ -2,14 +2,14 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
-#include "esphome/core/gpio.h"
+#include "esphome/components/adc/adc_sensor.h"
 
 namespace esphome {
 namespace zmpt101b {
 
 class ZMPT101BSensor : public sensor::Sensor, public PollingComponent {
  public:
-  void set_pin(InternalGPIOPin *pin) { pin_ = pin; }
+  void set_adc_sensor(adc::ADCSensor *sensor) { adc_sensor_ = sensor; }
   void set_frequency(uint16_t freq) { period_ = 1000000UL / freq; }
   void set_sensitivity(float sens) { sensitivity_ = sens; }
 
@@ -19,10 +19,10 @@ class ZMPT101BSensor : public sensor::Sensor, public PollingComponent {
   void dump_config() override;
 
  protected:
-  InternalGPIOPin *pin_{nullptr};
+  adc::ADCSensor *adc_sensor_{nullptr};
   uint32_t period_{20000};
   float sensitivity_{500.0f};
-  int zero_point_{0};
+  float zero_volts_{-1.0f};
 };
 
 }  // namespace zmpt101b
