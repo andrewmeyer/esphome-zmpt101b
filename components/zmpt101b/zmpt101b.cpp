@@ -8,11 +8,11 @@ namespace zmpt101b {
 static const char *const TAG = "zmpt101b";
 
 void ZMPT101BSensor::setup() {
-  // Initial zero-point calibration over one full AC period
+  // Initial zero-point calibration over one half AC period (10ms at 50Hz)
   float vsum = 0.0f;
   uint32_t count = 0;
   uint32_t t_start = micros();
-  while (micros() - t_start < period_) {
+  while (micros() - t_start < period_ / 2) {
     vsum += adc_sensor_->sample();
     count++;
   }
@@ -25,8 +25,9 @@ void ZMPT101BSensor::update() {
   double sq_sum = 0.0;
   uint32_t count = 0;
 
+  // Half-period sampling: RMS of a sine wave is identical over any half period
   uint32_t t_start = micros();
-  while (micros() - t_start < period_) {
+  while (micros() - t_start < period_ / 2) {
     float raw = adc_sensor_->sample();
     zsum += raw;
     float v = raw - zero_volts_;
